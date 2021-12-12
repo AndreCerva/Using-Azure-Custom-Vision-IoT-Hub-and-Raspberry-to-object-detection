@@ -38,15 +38,13 @@ if __name__ == '__main__':#Cuando se inicie la ejecución del programa, entrara 
         else: #En caso de no poder capturar un fotograma
             print('Error al intentar ingresar a la camara')#Mostrar posible error de pq no se capturo fotograma
     with open("capture.png", mode="rb") as captured_image: #Abre la imagen guardada en formato de lectura
-        results = predictor.detect_image("Your ID Project CV", "Project Name CV", captured_image)
-    for prediction in results.predictions:
-        if prediction.probability > 0.1:
-            data='TOMMY HAS BEEN FOUND'
-            print(prediction.probability)
+        results = predictor.detect_image("Your ID Project CV", "Project Name CV", captured_image)#Se envia la imagen tomada con el id y el nombre del proyecto
+    for prediction in results.predictions:#Se miran todas las predicciones hechas por Azure almacenadas en results cuando enviamos la imagen
+        if prediction.probability > 0.1:#Para todas las predicciones que se hayan tenido que sean mayores a un 50% de seguridad
+            print(prediction.probability)#Imprime el porcentaje de seguridad con la que está de que es tommy
             bbox = prediction.bounding_box
             result_image = cv2.rectangle(image, (int(bbox.left * 640), int(bbox.top * 480)), (int((bbox.left + bbox.width) * 640), int((bbox.top + bbox.height) * 480)), (0, 255, 0), 3)
-            cv2.imwrite('capture.png', result_image)
-            iothub_messaging(data)
+            cv2.imwrite('capture.png', result_image)#Se guarda la imagen que se mando al servicio de custom vision
+            iothub_messaging('TOMMY HAS BEEN FOUND')#Envia el mensaje al dispositivo de que se ha encontrado a tommy 
         else:
-            data='TOMMY HAS NOT BEEN FOUND YET'
-            iothub_messaging(data)  
+            iothub_messaging('TOMMY HAS NOT BEEN FOUND YET')#Envia el mensaje de que no se ha encontrado a Tommy
