@@ -42,7 +42,9 @@ if __name__ == '__main__':#Cuando se inicie la ejecución del programa, entrara 
     for prediction in results.predictions:#Se miran todas las predicciones hechas por Azure almacenadas en results cuando enviamos la imagen
         if prediction.probability > 0.1:#Para todas las predicciones que se hayan tenido que sean mayores a un 50% de seguridad
             print(prediction.probability)#Imprime el porcentaje de seguridad con la que está de que es tommy
-            bbox = prediction.bounding_box
+            bbox = prediction.bounding_box#Cuadros delimetadores que se obtienen de la predicción
+            #Para los cuadros delimitadores, hacemos un cálculo simple basado en el tamaño de la imagen, establecemos el color del cuadro delimitador y el grosor del borde. 
+            #Dibujamos estos cuadros delimetadores en la imagen
             result_image = cv2.rectangle(image, (int(bbox.left * 640), int(bbox.top * 480)), (int((bbox.left + bbox.width) * 640), int((bbox.top + bbox.height) * 480)), (0, 255, 0), 3)
             cv2.imwrite('capture.png', result_image)#Se guarda la imagen que se mando al servicio de custom vision
             iothub_messaging('TOMMY HAS BEEN FOUND')#Envia el mensaje al dispositivo de que se ha encontrado a tommy 
