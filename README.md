@@ -14,7 +14,7 @@ Tener en cuenta la relación de aspecto de la imagen cuando se modifique su tama
 
 Se requiere instalar las siguientes librerias:
 * sudo pip install azure-iot-hub
-    *En caso de no tener instalado la libreria GPIO*
+*En caso de no tener instalado la libreria GPIO*
     * sudo apt-get update.
     * sudo apt-get upgrade.
     * sudo apt-get install python-dev.
