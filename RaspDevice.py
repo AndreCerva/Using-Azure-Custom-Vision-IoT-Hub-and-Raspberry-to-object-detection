@@ -1,9 +1,10 @@
 import RPi.GPIO as GPIO#librerias que nos permite trabajar con los pines de la rasp
 import time #Libreria para tiempos de espera
 from azure.iot.device import IoTHubDeviceClient#Libreria para hacer uso del servicio de Azure IoT Hub
+GPIO.setwarnings(False)#No mostrar advertencias
 CONNECTION_STRING = "Your connection_string " #Aquí pegamos la cadena de conexion tomada desde nuestro portal de azure
-pinledV=23 #Pin positivo al que ira conectado el led verde
-pinledR=24 #Pin positivo al que ira conectado el led rojo
+pinledV=16 #Pin positivo al que ira conectado el led verde
+pinledR=18 #Pin positivo al que ira conectado el led rojo
 GPIO.setmode(GPIO.BOARD) #Numeraremos los pines del rasp con la numeración board (locación fisica)
 GPIO.setup(pinledV,GPIO.OUT)#Indicamos que en el pin del led v estará mandando señal
 GPIO.setup(pinledR,GPIO.OUT)#Indicamos que en el pin del led r estará mandando señal
