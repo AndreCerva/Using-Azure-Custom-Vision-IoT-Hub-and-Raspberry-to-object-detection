@@ -3,11 +3,11 @@ from PIL import Image#Python Imaging Library, libreria para la edición y manipu
 from azure.iot.hub import IoTHubRegistryManager #Libreria de Azure para IoT Hub
 from azure.cognitiveservices.vision.customvision.prediction import CustomVisionPredictionClient#Libreria de Azure para Custom Vision service
 from msrest.authentication import ApiKeyCredentials#Libreria de Azure para autenticar credenciales de servicio
-credentials = ApiKeyCredentials(in_headers={"Prediction-key": "fe02970e735e472c923c55a88dac87a0"})#La clave para hacer uso del servicio de custom vision desplegado
-predictor = CustomVisionPredictionClient("https://southcentralus.api.cognitive.microsoft.com/", credentials)#Endpoint donde se encuentra nuestro servicio de custom vision desplegado
+credentials = ApiKeyCredentials(in_headers={"Prediction-key": "Tu key para la prediction"})#La clave para hacer uso del servicio de custom vision desplegado
+predictor = CustomVisionPredictionClient("EndPoint", credentials)#Endpoint donde se encuentra nuestro servicio de custom vision desplegado
 #La siguiente connection string se encuentra en el portal de azure dentro de shared acces policies- service
-CONNECTION_STRING = "HostName=RaspDevice.azure-devices.net;SharedAccessKeyName=service;SharedAccessKey=JXI7FQ8QRFTh9rs80fGZy8vQ0HVFcWE4+YnkMO4dU3I="#Cadena de conección para el servicio de Azure IoT Hub.
-DEVICE_ID = "RaspID"#ID con el que se ha registrado el dispositivo con el que se va a comunicar
+CONNECTION_STRING = "Cadena de conexión para el iot hub"#Cadena de conección para el servicio de Azure IoT Hub.
+DEVICE_ID = "Nombre del registro del dispositivo en el portal"#ID con el que se ha registrado el dispositivo con el que se va a comunicar
 def iothub_messaging(data):#Función para enviar mensaje a nuestro dispositivo, recibe como parametro la información a mandar
     try:
         registry_manager = IoTHubRegistryManager(CONNECTION_STRING)#Creamos un IoTHubRegistryManager que nos permitira mandar el mensaje a nuestro dispositivo
@@ -39,10 +39,9 @@ if __name__ == '__main__':#Cuando se inicie la ejecución del programa, entrara 
         else: #En caso de no poder capturar un fotograma
             print('Error al intentar ingresar a la camara')#Mostrar posible error de pq no se capturo fotograma
     with open("capture.png", mode="rb") as captured_image: #Abre la imagen guardada en formato de lectura
-        results = predictor.detect_image("11cb7b1c-935f-4405-bd2e-619909ab927c", "P!", captured_image)#Se envia la imagen tomada con el id y el nombre del proyecto
+        results = predictor.detect_image("Aquí el ID del proyecto", "Nombre de la iteración publicada", captured_image)#Se envia la imagen tomada con el id y el nombre del proyecto
     for prediction in results.predictions:#Se miran todas las predicciones hechas por Azure almacenadas en results cuando enviamos la imagen
         if prediction.probability > 0.5:#Para todas las predicciones que se hayan tenido que sean mayores a un 50% de seguridad
-            print(prediction.probability)#Imprime el porcentaje de seguridad con la que está de que es tommy
             bbox = prediction.bounding_box#Cuadros delimetadores que se obtienen de la predicción
             #Para los cuadros delimitadores, hacemos un cálculo simple basado en el tamaño de la imagen, establecemos el color del cuadro delimitador y el grosor del borde. 
             #Dibujamos estos cuadros delimetadores en la imagen
@@ -51,6 +50,6 @@ if __name__ == '__main__':#Cuando se inicie la ejecución del programa, entrara 
             cv2.imwrite('capture.png', result_image)#Se guarda la imagen que se mando al servicio de custom vision
             data='TOMMY'
         else:
-            data='NOTOMMY'
+            data='NO TOMMY'
         iothub_messaging(data)#Envia el mensaje
 

@@ -3,7 +3,7 @@ import time #Libreria para tiempos de espera
 from azure.iot.device import IoTHubDeviceClient#Libreria para hacer uso del servicio de Azure IoT Hub
 GPIO.setwarnings(False)#No mostrar advertencias
 #La siguiente connection_string se encuentra en el portal de azure en el registo del device
-CONNECTION_STRING = "HostName=RaspDevice.azure-devices.net;DeviceId=RaspID;SharedAccessKey=QfPbEqH1pFafTXEFOFJ5DMtuAZC/IcjlhJc9sRm7dt4=" #Aquí pegamos la cadena de conexion tomada desde nuestro portal de azure
+CONNECTION_STRING = "Aquí tu connection_string" #Aquí pegamos la cadena de conexion tomada desde nuestro portal de azure
 pinledV=16 #Pin positivo al que ira conectado el led verde
 pinledR=18 #Pin positivo al que ira conectado el led rojo
 GPIO.setmode(GPIO.BOARD) #Numeraremos los pines del rasp con la numeración board (locación fisica)
@@ -15,6 +15,7 @@ def message_handler(message): #Recibe el mensaje con todos sus atributos y metod
   if message.data.decode() == 'TOMMY': #Si el mensaje que se envia es que se encontro a tommy
       GPIO.output(pinledR,GPIO.LOW) #Apagar el led rojo
       GPIO.output(pinledV,GPIO.HIGH) #Encender led verde
+      print("Se ha encontrado a Tommy")
   else: #No se ha encontrado a tommy aún
       print("No se ha encontrado")
       GPIO.output(pinledV,GPIO.LOW) #Apagar led verde
