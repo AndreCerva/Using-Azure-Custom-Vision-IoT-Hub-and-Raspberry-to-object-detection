@@ -7,6 +7,7 @@ Se requiere instalar las siguientes librerias para su correcto funcionamiento:
 * pip install opencv-python
 * pip install azure-cognitiveservices-vision-customvision
 * pip install msrest
+* pip3 install azure-iot-device
 
 Tener en cuenta la relación de aspecto de la imagen cuando se modifique su tamaño
 
